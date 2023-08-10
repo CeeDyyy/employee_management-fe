@@ -9,9 +9,14 @@ export default function Shift() {
     return (
         <div className="pt-2">
             <BackBtn path="/" />
-            <p className="text-center text-2xl font-bold">Shifts</p>
+            <p className="mb-1 text-center text-2xl font-bold">Shifts</p>
 
-            <div className="mx-4 flex justify-end">
+            <div className="flex justify-between">
+                <div className="w-[32px]" />
+                <div>
+                    <p className="text-center font-bold">August</p>
+                    <p className="text-center text-gray-500 text-sm">2023</p>
+                </div>
                 {display === "tiles" ?
                     <button onClick={() => setDisplay("list")}>
                         <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xmlSpace="preserve" width="32px" height="32px" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <style type="text/css" dangerouslySetInnerHTML={{ __html: " .st0{fill:none;stroke:#06B6D4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#06B6D4;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} " }} /> <rect x={4} y={4} className="st0" width={10} height={10} /> <rect x={4} y={18} className="st0" width={10} height={10} /> <rect x={18} y={4} className="st0" width={10} height={10} /> <rect x={18} y={18} className="st0" width={10} height={10} /> </g></svg>
@@ -23,7 +28,7 @@ export default function Shift() {
                 }
             </div>
 
-            <div className={`mt-5 mx-4 ${display === "tiles" ? 'grid grid-cols-7 place-items-center' : 'flex overflow-y-auto'} gap-2`}>
+            <div className={`mt-5 mx-4 md:mx-96 ${display === "tiles" ? 'grid grid-cols-7 place-items-center' : 'flex overflow-y-auto'} gap-2`}>
                 <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center" hidden={display !== "tiles"} key="sun">SUN</div>
                 <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center" hidden={display !== "tiles"} key="mon">MON</div>
                 <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center" hidden={display !== "tiles"} key="tue">TUE</div>
@@ -32,7 +37,7 @@ export default function Shift() {
                 <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center" hidden={display !== "tiles"} key="fri">FRI</div>
                 <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center" hidden={display !== "tiles"} key="sat">SAT</div>
                 {[...Array(31)].map((e, i) =>
-                    <div className="w-full h-20 border border-cyan-500 rounded text-center" key={i}>
+                    <div className={`w-full border border-cyan-500 rounded text-center ${display === "list" ? 'h-full' : 'h-20'}`} key={i}>
                         {i + 1}
                     </div>
                 )}
