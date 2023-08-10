@@ -6,10 +6,10 @@ const liffId = process.env.NEXT_PUBLIC_LIFF_ID
 
 export default function Footer() {
     const [profile, setProfile] = useState({
-        "userId": "Udc30b20e1e87c8bc7d475398bb5607ff",
-        "displayName": "CeeDy",
-        "statusMessage": "ถ้าตอบช้าทักเฟสนาจา",
-        "pictureUrl": "https://profile.line-scdn.net/0hYVxPEv3-BnlVKRM6MOp4BiV5BRN2WF9rKUccGGYhXEk6H0Itek5LTzMsW0w6ThYpKkgeFmN5D0lZOnEfS3_6TVIZW0hpGEMpfE9MnQ"
+        "userId": "uuid",
+        "displayName": "name",
+        "statusMessage": "status message",
+        "pictureUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     })
 
     useEffect(async () => {
