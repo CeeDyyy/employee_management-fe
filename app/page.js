@@ -15,11 +15,12 @@ export default function Home() {
     }
     if (liff.isLoggedIn()) {
       const profile = await liff.getProfile()
+      console.log(profile)
       setProfile(profile)
     } else {
       liff.login();
     }
-  })
+  }, [])
 
   return (
     <div>
