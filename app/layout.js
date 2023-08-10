@@ -1,4 +1,5 @@
 import './globals.css'
+import Footer from '@/components/footer';
 
 export const metadata = {
   title: 'Khokphochai hospital',
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="h-screen flex flex-col justify-between bg-neutral-50">
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

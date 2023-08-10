@@ -1,38 +1,14 @@
 "use client"
-import { useState, useEffect } from 'react';
 
-const liffId = process.env.NEXT_PUBLIC_LIFF_ID
+import Link from "next/link"
 
 export default function Home() {
-  const [profile, setProfile] = useState({})
-
-  useEffect(async () => {
-    const liff = (await import('@line/liff')).default
-    try {
-      await liff.init({ liffId });
-    } catch (error) {
-      console.error('liff init error', error.message)
-    }
-    if (liff.isLoggedIn()) {
-      const profile = await liff.getProfile()
-      console.log(profile)
-      setProfile(profile)
-    } else {
-      liff.login();
-    }
-  }, [])
 
   return (
-    <div>
-      <div>
-        {profile.pictureUrl && <img
-          src={profile.pictureUrl}
-          alt={profile.displayName}
-          width={500}
-          height={500}
-        />}
-        <div>Name: {profile.displayName}</div>
-      </div>
+    <div className="my-auto mx-4 md:mx-96 grid md:grid-cols-2 gap-4 md:gap-16">
+      <Link href="/" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-200 rounded-lg">-</Link>
+      <Link href="/shifts" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-200 rounded-lg">ลา</Link>
+      <Link href="/booking" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-200 rounded-lg">จองรถ</Link>
     </div>
   )
 }
