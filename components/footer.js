@@ -1,36 +1,14 @@
 "use client"
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-
-const liffId = process.env.NEXT_PUBLIC_LIFF_ID
+import React, { useContext } from 'react';
+import { UserContext } from '@/app/layout';
 
 export default function Footer() {
-    const [profile, setProfile] = useState({
-        "userId": "uuid",
-        "displayName": "name",
-        "statusMessage": "status message",
-        "pictureUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-    })
-
-    useEffect(async () => {
-        const liff = (await import('@line/liff')).default
-        try {
-            await liff.init({ liffId });
-        } catch (error) {
-            console.error('liff init error', error.message)
-        }
-        if (liff.isLoggedIn()) {
-            const profile = await liff.getProfile()
-            console.log(profile)
-            setProfile(profile)
-        } else {
-            liff.login();
-        }
-    }, [])
-
+    const profile = useContext(UserContext)
+    
     return (
-        <div className="z-50 flex items-center px-2 bg-white" style={{ boxShadow: "0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" }}>
+        <div className="z-50 fixed bottom-0 right-0 w-full flex items-center px-2 bg-white" style={{ boxShadow: "0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" }}>
             <p className="ml-auto mr-3 font-bold">{profile.displayName}</p>
             {profile.pictureUrl && <Link href="/profile">
                 <img

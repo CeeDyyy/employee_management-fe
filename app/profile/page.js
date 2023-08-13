@@ -1,12 +1,24 @@
 "use client"
 
-import BackBtn from '@/components/backbtn';
+import React, { useContext } from 'react';
+import { UserContext } from '@/app/layout';
+import { Page } from '@/components/layouts';
 
 export default function Booking() {
+    const profile = useContext(UserContext)
+
     return (
-        <div className="pt-2">
-            <BackBtn path="/" />
-            <p className="mb-1 text-center text-2xl font-bold">Profile</p>
-        </div>
+        <Page title="Profile">
+            <div className="grid justify-items-center gap-4">
+                <img
+                    className="rounded-full border-2 border-white shadow-md"
+                    src={profile.pictureUrl}
+                    alt={profile.displayName}
+                    width={200}
+                    height={200}
+                />
+                <p className="text-xl font-bold">{profile.displayName}</p>
+            </div>
+        </Page>
     )
 }
