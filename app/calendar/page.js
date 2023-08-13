@@ -207,7 +207,7 @@ export default function Calendar() {
                                             ${display === "list" ? 'h-full' : 'h-16'} 
                                             ${(display === "tiles" && i === 0) && startDay[firstDay]} 
                                             ${format(date, 'yyyy-MM-dd') === yyyyMMdd ? 'bg-cyan-100' :
-                                            compareAsc(new Date(selectedYear, selectedMonth, i + 1), new Date()) === -1 ? 'bg-neutral-200' : 'bg-neutral-50'}`}
+                                            compareAsc(new Date(selectedYear, selectedMonth, i + 1), new Date()) === -1 ? 'bg-neutral-200' : 'bg-white'}`}
                                     key={i}
                                 >
                                     <p className="text-xs font-bold">{i + 1}</p>
