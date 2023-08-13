@@ -1,10 +1,12 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from "next/navigation";
 import { Page } from '@/components/layouts';
 import { format, compareAsc } from 'date-fns'
 
 export default function Shift() {
+    const searchParams = useSearchParams();
     const date = new Date()
     const month = [
         { enLong: 'January', enShort: 'Jan', thLong: 'มกราคม', thShort: 'มกรา', thAbbr: 'ม.ค.' },
@@ -34,7 +36,7 @@ export default function Shift() {
     const [selectedMonth, setSelectedMonth] = useState(date.getMonth())
     const [selectedYear, setSelectedYear] = useState(date.getFullYear())
     const [display, setDisplay] = useState("tiles")
-    const [detailPanel, setDetailPanel] = useState("")
+    const [detailPanel, setDetailPanel] = useState(searchParams.get("detailpanel") || "")
     const [firstDay, setFirstDay] = useState(new Date(selectedYear, selectedMonth, 1).getDay())
     const [lastDate, setLastDate] = useState(new Date(selectedYear, selectedMonth + 1, 0).getDate())
 
