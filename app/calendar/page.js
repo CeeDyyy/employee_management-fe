@@ -136,7 +136,8 @@ export default function Calendar() {
         setStartDate("")
         setEndDate("")
         setDetail("")
-        setSelectedIssue("")
+        setSelectedLeave("")
+        setSelectedBooking("")
         Toast.fire({
             icon: 'success',
             title: 'บันทึกการลาเรียบร้อย'
@@ -153,14 +154,16 @@ export default function Calendar() {
         setEndDate("")
         setDetail("")
         setSelectedCar("")
-        setSelectedIssue("")
+        setSelectedLeave("")
+        setSelectedBooking("")
         Toast.fire({
             icon: 'success',
             title: 'บันทึกการจองเรียบร้อย'
         })
     }
 
-    const [selectedIssue, setSelectedIssue] = useState("")
+    const [selectedLeave, setSelectedLeave] = useState("")
+    const [selectedBooking, setSelectedBooking] = useState("")
 
     return (
         <Page title="Calendar">
@@ -199,7 +202,8 @@ export default function Calendar() {
                             return (
                                 <div onClick={() => {
                                     (detailPanel !== "leave" && detailPanel !== "booking") && setDetailPanel(`detail${yyyyMMdd}`);
-                                    setSelectedIssue("");
+                                    setSelectedLeave("");
+                                    setSelectedBooking("");
                                     setStartDate(yyyyMMdd + 'T00:00');
                                     setEndDate(yyyyMMdd + 'T00:00')
                                 }}
@@ -237,7 +241,7 @@ export default function Calendar() {
                                  md:relative md:top-auto md:w-full md:h-full
                                  left-0 bg-neutral-50 ${detailPanel ? 'block' : 'hidden'}`}
                 >
-                    <svg onClick={() => { setDetailPanel(""); setSelectedIssue(""); }} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
+                    <svg onClick={() => { setDetailPanel(""); setSelectedLeave(""); setSelectedBooking(""); }} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
                     <div className="mt-10 p-4">
 
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center font-bold">{format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy')}</p> : ""}
@@ -258,41 +262,56 @@ export default function Calendar() {
                             <div className="mt-2 grid gap-y-2">
                                 {leaves.map((leave) =>
                                     (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.startDate.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.endDate.slice(0, 10)) &&
-                                    <div onClick={() => setSelectedIssue(leave)} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
-                                        <p className="text-xs md:text-sm">
-                                            <span>👋 ลาโดย: </span>
-                                            <span className="font-bold">{leave.userId}</span>
-                                            <span className="ml-2"> สถานะ: </span>
-                                            <span className="font-bold">{leave.status}</span>
-                                        </p>
-                                        <p className="-mt-0.5">👁️‍🗨️</p>
+                                    <div>
+                                        <div onClick={() => { selectedLeave.id === leave.id ? setSelectedLeave("") : setSelectedLeave(leave); setSelectedBooking(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
+                                            <p className="text-xs md:text-sm">
+                                                <span>👋 ลาโดย: </span>
+                                                <span className="font-bold">{leave.userId}</span>
+                                                <span className="ml-2"> สถานะ: </span>
+                                                <span className="font-bold">{leave.status}</span>
+                                            </p>
+                                            <p className="-mt-0.5">👁️‍🗨️</p>
+                                        </div>
+                                        {selectedLeave && selectedLeave.id === leave.id &&
+                                            <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
+                                                <p>แจ้งโดย: </p><p className={!selectedLeave.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedLeave.userId}</p><p className={!selectedLeave.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedLeave.carId ? 'hidden' : 'font-bold'}>{selectedLeave.carId}</p>
+                                                <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedLeave.detail}</p>
+                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedLeave.startDate}</p><p>ถึง: </p><p className="font-bold">{selectedLeave.endDate}</p>
+                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedLeave.timeStamp}</p>
+                                                <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedLeave.status}</p>
+                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedLeave.approver}</p><p>เวลา: </p><p className="font-bold">{selectedLeave.changedTimeStamp}</p>
+                                                <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedLeave.reason}</p>
+                                            </div>
+                                        }
                                     </div>
                                 )}
                                 {bookings.map((booking) =>
                                     (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.startDate.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.endDate.slice(0, 10)) &&
-                                    <div onClick={() => setSelectedIssue(booking)} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
-                                        <p className="text-xs md:text-sm">
-                                            <span>🚗 จองโดย: </span>
-                                            <span className="font-bold">{booking.userId}</span>
-                                            <span className="ml-2"> รถ: </span>
-                                            <span className="font-bold">{booking.carId}</span>
-                                            <span className="ml-2"> สถานะ: </span>
-                                            <span className="font-bold">{booking.status}</span>
-                                        </p>
-                                        <p className="-mt-0.5">👁️‍🗨️</p>
+                                    <div>
+                                        <div onClick={() => { selectedBooking.id === booking.id ? setSelectedBooking("") : setSelectedBooking(booking); setSelectedLeave(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
+                                            <p className="text-xs md:text-sm">
+                                                <span>🚗 จองโดย: </span>
+                                                <span className="font-bold">{booking.userId}</span>
+                                                <span className="ml-2"> รถ: </span>
+                                                <span className="font-bold">{booking.carId}</span>
+                                                <span className="ml-2"> สถานะ: </span>
+                                                <span className="font-bold">{booking.status}</span>
+                                            </p>
+                                            <p className="-mt-0.5">👁️‍🗨️</p>
+                                        </div>
+                                        {selectedBooking && selectedBooking.id === booking.id &&
+                                            <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
+                                                <p>แจ้งโดย: </p><p className={!selectedBooking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedBooking.userId}</p><p className={!selectedBooking.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedBooking.carId ? 'hidden' : 'font-bold'}>{selectedBooking.carId}</p>
+                                                <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedBooking.detail}</p>
+                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedBooking.startDate}</p><p>ถึง: </p><p className="font-bold">{selectedBooking.endDate}</p>
+                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedBooking.timeStamp}</p>
+                                                <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedBooking.status}</p>
+                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedBooking.approver}</p><p>เวลา: </p><p className="font-bold">{selectedBooking.changedTimeStamp}</p>
+                                                <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedBooking.reason}</p>
+                                            </div>
+                                        }
                                     </div>
                                 )}
-                                {selectedIssue &&
-                                    <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
-                                        <p>แจ้งโดย: </p><p className={!selectedIssue.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedIssue.userId}</p><p className={!selectedIssue.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedIssue.carId ? 'hidden' : 'font-bold'}>{selectedIssue.carId}</p>
-                                        <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedIssue.detail}</p>
-                                        <p>ตั้งแต่: </p><p className="font-bold">{selectedIssue.startDate}</p><p>ถึง: </p><p className="font-bold">{selectedIssue.endDate}</p>
-                                        <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedIssue.timeStamp}</p>
-                                        <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedIssue.status}</p>
-                                        <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedIssue.approver}</p><p>เวลา: </p><p className="font-bold">{selectedIssue.changedTimeStamp}</p>
-                                        <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedIssue.reason}</p>
-                                    </div>
-                                }
                             </div>
                         }
 
