@@ -63,6 +63,7 @@ export default function Calendar() {
     useEffect(() => {
         getLeaves()
         getBookings()
+        getCars()
         setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
         setLastDate(new Date(selectedYear, selectedMonth + 1, 0).getDate())
     }, [selectedMonth])
@@ -87,6 +88,7 @@ export default function Calendar() {
 
     const [leaves, setLeaves] = useState([])
     const [bookings, setBookings] = useState([])
+    const [cars, setCars] = useState([])
 
     function getLeaves() {
         fetch("http://localhost:3001/leaves")
@@ -104,6 +106,17 @@ export default function Calendar() {
             .then((response) => response.json())
             .then((res) => {
                 setBookings(res)
+            })
+            .catch((error) => {
+                console.error("getLeaves() Error:", error);
+            });
+    }
+
+    function getCars() {
+        fetch("http://localhost:3001/cars")
+            .then((response) => response.json())
+            .then((res) => {
+                setCars(res)
             })
             .catch((error) => {
                 console.error("getLeaves() Error:", error);
@@ -299,14 +312,11 @@ export default function Calendar() {
                             <textarea value={detail} onChange={(e) => setDetail(e.target.value)} className="col-span-3 border-2 rounded-md" />
                             <p className={detailPanel === "booking" ? 'block' : 'hidden'}>รถ : </p>
                             <select id="cars" name="cars" value={selectedCar} onChange={(e) => setSelectedCar(e.target.value)} className={detailPanel === "booking" ? 'block col-span-3 border-2 rounded-md' : 'hidden'}>
-                                <option value="volvo">Volvo XC90</option>
-                                <option value="saab">Saab 95</option>
-                                <option value="mercedes">Mercedes SLK</option>
-                                <option value="audi">Audi TT</option>
+                                {cars.map((car) => <option value={car.id} key={car.id}>{car.name + ' (' + car.licensePlate + ')'}</option>)}
                             </select>
                             <div className="col-span-4 mt-20 flex justify-around">
                                 <button onClick={() => submit()} className="flex justify-center items-center py-2 w-40 bg-cyan-500 border border-cyan-900 rounded w-fit">
-                                    <p className="text-white">ลงรายการ</p>
+                                    <p className="text-white">บันรายการ</p>
                                 </button>
                                 <button onClick={() => setDetailPanel("detail")} className="flex justify-center items-center py-2 w-40 bg-white border border-red-500 rounded w-fit">
                                     <p className="text-black">ยกเลิกรายการ</p>
