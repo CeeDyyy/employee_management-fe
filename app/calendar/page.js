@@ -316,7 +316,7 @@ export default function Calendar() {
                             </select>
                             <div className="col-span-4 mt-20 flex justify-around">
                                 <button onClick={() => submit()} className="flex justify-center items-center py-2 w-40 bg-cyan-500 border border-cyan-900 rounded w-fit">
-                                    <p className="text-white">บันรายการ</p>
+                                    <p className="text-white">บันทึกรายการ</p>
                                 </button>
                                 <button onClick={() => setDetailPanel("detail")} className="flex justify-center items-center py-2 w-40 bg-white border border-red-500 rounded w-fit">
                                     <p className="text-black">ยกเลิกรายการ</p>
