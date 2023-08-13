@@ -1,10 +1,23 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from "next/navigation";
-import { Page } from '@/components/layouts';
-import { format, compareAsc } from 'date-fns'
+import { useSearchParams } from 'next/navigation';
+import { format, compareAsc } from 'date-fns';
+import Swal from 'sweetalert2';
 
+import { Page } from '@/components/layouts';
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 export default function Calendar() {
     const searchParams = useSearchParams();
     const date = new Date()
@@ -111,6 +124,10 @@ export default function Calendar() {
         setEndDate("")
         setDetail("")
         setSelectedIssue("")
+        Toast.fire({
+            icon: 'success',
+            title: 'บันทึกการลาเรียบร้อย'
+        })
     }
 
     function submitBooking() {
@@ -124,6 +141,10 @@ export default function Calendar() {
         setDetail("")
         setSelectedCar("")
         setSelectedIssue("")
+        Toast.fire({
+            icon: 'success',
+            title: 'บันทึกการจองเรียบร้อย'
+        })
     }
 
     const [selectedIssue, setSelectedIssue] = useState("")
