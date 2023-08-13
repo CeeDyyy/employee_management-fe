@@ -163,7 +163,7 @@ export default function Calendar() {
     const [selectedIssue, setSelectedIssue] = useState("")
 
     return (
-        <Page title="Shifts">
+        <Page title="Calendar">
             <div className="grid grid-cols-3 content-center">
                 {display === "tiles" ?
                     <button onClick={() => setDisplay("list")} className="w-fit p-1">
