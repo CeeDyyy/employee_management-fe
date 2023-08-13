@@ -185,12 +185,12 @@ export default function Calendar() {
                     </p>
                 </button>
             </div>
-            <div className="grid md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2">
 
                 <div>
                     <svg onClick={() => decreaseMonth()} className="w-full justify-self-center cursor-pointer" width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M18.2929 15.2893C18.6834 14.8988 18.6834 14.2656 18.2929 13.8751L13.4007 8.98766C12.6195 8.20726 11.3537 8.20757 10.5729 8.98835L5.68257 13.8787C5.29205 14.2692 5.29205 14.9024 5.68257 15.2929C6.0731 15.6835 6.70626 15.6835 7.09679 15.2929L11.2824 11.1073C11.673 10.7168 12.3061 10.7168 12.6966 11.1073L16.8787 15.2893C17.2692 15.6798 17.9024 15.6798 18.2929 15.2893Z" fill="#0F0F0F" /> </g></svg>
 
-                    <div className={`${display === "tiles" ? 'grid grid-cols-7 place-items-center' : 'flex overflow-y-auto'} gap-2`}>
+                    <div className={`${display === "tiles" ? 'grid grid-cols-7 place-items-center' : 'flex overflow-x-scroll'} gap-2`}>
                         {days.map((day) =>
                             <div className="w-full bg-cyan-100 border border-cyan-500 rounded text-center select-none" hidden={display !== "tiles"} key={day.enShort.toLocaleLowerCase()}>{day.enShort.toLocaleUpperCase()}</div>
                         )}
