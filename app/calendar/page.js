@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Page } from '@/components/layouts';
 import { format, compareAsc } from 'date-fns'
 
-export default function Shift() {
+export default function Calendar() {
     const searchParams = useSearchParams();
     const date = new Date()
     const month = [
