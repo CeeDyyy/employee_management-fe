@@ -12,10 +12,10 @@ export default function Home() {
       <Link href="/calendar" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 rounded-lg shadow-md">
         <p className="text-white">ปฏิทิน</p>
       </Link>
-      <Link href="/calendar?detailpanel=leave" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 rounded-lg shadow-md">
+      <Link href="/calendar?detailpanel=leave&display=horizontal&ifdata=true&onlyme=true" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 rounded-lg shadow-md">
         <p className="text-white">ลา</p>
       </Link>
-      <Link href="/calendar?detailpanel=booking" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 rounded-lg shadow-md">
+      <Link href="/calendar?detailpanel=booking&display=horizontal&ifdata=true&onlyme=true" className="flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 rounded-lg shadow-md">
         <p className="text-white">จองรถ</p>
       </Link>
     </div>
