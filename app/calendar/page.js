@@ -288,7 +288,7 @@ export default function Calendar() {
 
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center font-bold">{format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy')}</p> : ""}
 
-                        <div className={detailPanel.slice(0, 6) === "detail" ? 'block grid grid-cols-2 gap-4' : 'hidden'}>
+                        <div className={detailPanel.slice(0, 6) === "detail" ? 'grid grid-cols-2 gap-4' : 'hidden'}>
                             <button onClick={() => setDetailPanel("leave")} className="flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 border border-cyan-900 rounded-lg shadow-md">
                                 <p className="text-white">
                                     ลา
@@ -357,7 +357,7 @@ export default function Calendar() {
                             </div>
                         }
 
-                        <div className={(detailPanel === "leave" || detailPanel === "booking") ? 'block grid grid-cols-4 gap-4' : 'hidden'}>
+                        <div className={(detailPanel === "leave" || detailPanel === "booking") ? 'grid grid-cols-4 gap-4' : 'hidden'}>
                             <p>วันที่ : </p>
                             <div className="col-span-3 grid grid-cols-1 md:grid-cols-2 gap-2">
                                 <div className="flex items-center">
@@ -376,10 +376,10 @@ export default function Calendar() {
                                 {cars.map((car) => <option value={car.id} key={car.id}>{car.name + ' (' + car.licensePlate + ')'}</option>)}
                             </select>
                             <div className="col-span-4 mt-20 flex justify-around">
-                                <button onClick={() => submit()} className="flex justify-center items-center py-2 w-40 bg-cyan-500 border border-cyan-900 rounded w-fit">
+                                <button onClick={() => submit()} className="flex justify-center items-center py-2 w-fit bg-cyan-500 border border-cyan-900 rounded">
                                     <p className="text-white">บันทึกรายการ</p>
                                 </button>
-                                <button onClick={() => setDetailPanel("detail")} className="flex justify-center items-center py-2 w-40 bg-white border border-red-500 rounded w-fit">
+                                <button onClick={() => setDetailPanel("detail")} className="flex justify-center items-center py-2 w-fit bg-white border border-red-500 rounded">
                                     <p className="text-black">ยกเลิกรายการ</p>
                                 </button>
                             </div>
