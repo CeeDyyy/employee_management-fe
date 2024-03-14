@@ -4,11 +4,16 @@ import Link from 'next/link';
 
 export default function BackBtn({ path }) {
     return (
-        <div>
-            <Link href={path} className="flex items-center w-fit">
-                <svg className="-mr-2" width="48px" height="48px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#06B6D4" /> </g></svg>
-                <p>ย้อนกลับ</p>
-            </Link>
-        </div>
+        <Link
+            className="group/backbtn mr-auto flex items-center justify-between hover:bg-primary-grey py-2 pl-2 pr-3 gap-x-2.5 rounded-[8px] duration-200"
+            href={path}
+        >
+            <div className="rotate-90"><div className="group-hover/backbtn:animate-bounce">
+                <svg x="0px" y="0px" viewBox="0 0 492 492" className="-rotate-90 md:w-[24px] lg:w-[24px] fill-cyan-500">
+                    <path d="M198.608,246.104L382.664,62.04c5.068-5.056,7.856-11.816,7.856-19.024c0-7.212-2.788-13.968-7.856-19.032l-16.128-16.12 C361.476,2.792,354.712,0,347.504,0s-13.964,2.792-19.028,7.864L109.328,227.008c-5.084,5.08-7.868,11.868-7.848,19.084 c-0.02,7.248,2.76,14.028,7.848,19.112l218.944,218.932c5.064,5.072,11.82,7.864,19.032,7.864c7.208,0,13.964-2.792,19.032-7.864 l16.124-16.12c10.492-10.492,10.492-27.572,0-38.06L198.608,246.104z" />
+                </svg>
+            </div></div>
+            <p className="font-bold text-primary-text">ย้อนกลับ</p>
+        </Link>
     )
 }
