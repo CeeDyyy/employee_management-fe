@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { format, compareAsc } from 'date-fns';
 import Swal from 'sweetalert2';
 
-import { Page } from '@/components/layouts';
+import { PageLayout } from '@/components/layouts';
 
 const Toast = Swal.mixin({
     toast: true,
@@ -168,7 +168,7 @@ export default function Calendar() {
     const [selectedBooking, setSelectedBooking] = useState("")
 
     return (
-        <Page title="Calendar">
+        <PageLayout title="Calendar">
             <div className="pt-2 grid grid-cols-2 content-center">
                 <details>
                     <summary className="w-8 h-8 flex justify-center cursor-pointer list-none">
@@ -387,6 +387,6 @@ export default function Calendar() {
                     </div>
                 </div>
             </div>
-        </Page >
+        </PageLayout>
     )
 }

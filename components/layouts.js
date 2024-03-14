@@ -2,7 +2,7 @@
 
 import BackBtn from './backbtn';
 
-const Page = ({ children, title = "title", path = "/" }) => {
+const PageLayout = ({ children, title = "title", path = "/" }) => {
     return (
         <div className="h-screen mx-4 md:mx-48 2xl:mx-72">
             <div className="sticky pt-2 w-full grid grid-cols-3 content-center bg-neutral-50">
@@ -16,4 +16,4 @@ const Page = ({ children, title = "title", path = "/" }) => {
     )
 }
 
-export { Page };
+export { PageLayout };

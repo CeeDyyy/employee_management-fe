@@ -1,11 +1,11 @@
 "use client"
 
-import { Page } from '@/components/layouts';
+import { PageLayout } from '@/components/layouts';
 
 export default function Booking() {
     return (
-        <Page title="Document">
+        <PageLayout title="Document">
             
-        </Page>
+        </PageLayout>
     )
 }

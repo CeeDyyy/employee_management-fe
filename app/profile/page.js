@@ -2,13 +2,13 @@
 
 import React, { useContext } from 'react';
 import { UserContext } from '@/app/layout';
-import { Page } from '@/components/layouts';
+import { PageLayout } from '@/components/layouts';
 
 export default function Booking() {
     const profile = useContext(UserContext)
 
     return (
-        <Page title="Profile">
+        <PageLayout title="Profile">
             <div className="grid justify-items-center gap-4">
                 <img
                     className="rounded-full border-2 border-white shadow-md"
@@ -19,6 +19,6 @@ export default function Booking() {
                 />
                 <p className="text-xl font-bold">{profile.displayName}</p>
             </div>
-        </Page>
+        </PageLayout>
     )
 }
