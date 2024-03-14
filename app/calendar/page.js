@@ -242,7 +242,7 @@ export default function Calendar() {
                                         setStartDate(yyyyMMdd + 'T00:00');
                                         setEndDate(yyyyMMdd + 'T00:00')
                                     }}
-                                    className={`w-full border text-center cursor-pointer
+                                    className={`w-full border text-center cursor-pointer hover:brightness-95 duration-150
                                             ${display === "tiles" && 'border-cyan-500 rounded h-16 overflow-y-auto'}
                                             ${display === "vertical" && 'mx-1 h-full border-neutral-300 rounded-md'}
                                             ${display === "horizontal" && 'flex my-2 rounded-xl'}
