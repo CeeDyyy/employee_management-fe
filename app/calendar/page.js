@@ -200,7 +200,7 @@ export default function Calendar() {
                         </button>
                     </div>
                 </details>
-                <button onClick={() => setDetailPanel("detail")} className="group/add justify-self-end flex items-center px-3 bg-cyan-500 hover:saturate-150 active:scale-105 duration-150 border border-cyan-900 rounded w-fit">
+                <button onClick={() => setDetailPanel("detail")} className="group/add justify-self-end flex items-center px-3 bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 border border-cyan-900 rounded w-fit">
                     <svg className="group-hover/add:scale-110 duration-150 " width="18px" height="18px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <g id="Edit / Add_Plus"> <path id="Vector" d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" /> </g> </g></svg>
                     <p className="ml-1 text-center text-sm text-white">
                         เพิ่มรายการ
@@ -289,12 +289,12 @@ export default function Calendar() {
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center font-bold">{format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy')}</p> : ""}
 
                         <div className={detailPanel.slice(0, 6) === "detail" ? 'grid grid-cols-2 gap-4' : 'hidden'}>
-                            <button onClick={() => setDetailPanel("leave")} className="group/leave flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-105 duration-150 border border-cyan-900 rounded-lg shadow-md">
+                            <button onClick={() => setDetailPanel("leave")} className="group/leave flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 border border-cyan-900 rounded-lg shadow-md">
                                 <p className="group-hover/leave:scale-110 duration-150 text-white">
                                     ลา
                                 </p>
                             </button>
-                            <button onClick={() => setDetailPanel("booking")} className="group/booking flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-105 duration-150 border border-cyan-900 rounded-lg shadow-md">
+                            <button onClick={() => setDetailPanel("booking")} className="group/booking flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 border border-cyan-900 rounded-lg shadow-md">
                                 <p className="group-hover/booking:scale-110 duration-150 text-white">
                                     จองรถ
                                 </p>
@@ -376,10 +376,10 @@ export default function Calendar() {
                                 {cars.map((car) => <option value={car.id} key={car.id}>{car.name + ' (' + car.licensePlate + ')'}</option>)}
                             </select>
                             <div className="col-span-4 mt-20 flex justify-around">
-                                <button onClick={() => submit()} className="group/save flex justify-center items-center py-2 px-4 w-fit bg-cyan-500 hover:saturate-150 active:scale-105 duration-150 border border-cyan-900 rounded">
+                                <button onClick={() => submit()} className="group/save flex justify-center items-center py-2 px-4 w-fit bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 border border-cyan-900 rounded">
                                     <p className="group-hover/save:scale-110 duration-150 text-white">บันทึกรายการ</p>
                                 </button>
-                                <button onClick={() => setDetailPanel("detail")} className="group/cancel flex justify-center items-center py-2 px-4 w-fit bg-white hover:bg-gray-100 active:scale-105 duration-150 border border-red-500 rounded">
+                                <button onClick={() => setDetailPanel("detail")} className="group/cancel flex justify-center items-center py-2 px-4 w-fit bg-white hover:bg-gray-100 active:scale-95 duration-150 border border-red-500 rounded">
                                     <p className="group-hover/cancel:scale-110 duration-150 text-black">ยกเลิกรายการ</p>
                                 </button>
                             </div>

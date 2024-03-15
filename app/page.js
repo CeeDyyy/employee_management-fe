@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div className="h-screen mx-4 md:mx-48 2xl:mx-72 grid md:grid-cols-2 gap-4 md:gap-16 content-center place-content-stretch md:place-content-center">
       {pages.map((page, index) =>
-        <Link href={page.href} className="group flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-105 duration-150 rounded-lg shadow-md" key={index}>
+        <Link href={page.href} className="group flex justify-center items-center h-20 md:h-48 cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 rounded-lg shadow-md" key={index}>
           <p className="group-hover:scale-110 duration-150 text-white">{page.title}</p>
         </Link>
       )}
