@@ -16,21 +16,21 @@ export default function RootLayout({ children }) {
     "pictureUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   })
 
-  // useEffect(async () => {
-  //     const liff = (await import('@line/liff')).default
-  //     try {
-  //         await liff.init({ liffId });
-  //     } catch (error) {
-  //         console.error('liff init error', error.message)
-  //     }
-  //     if (liff.isLoggedIn()) {
-  //         const profile = await liff.getProfile()
-  //         console.log(profile)
-  //         setUser(profile)
-  //     } else {
-  //         liff.login();
-  //     }
-  // }, [])
+  useEffect(async () => {
+      const liff = (await import('@line/liff')).default
+      try {
+          await liff.init({ liffId });
+      } catch (error) {
+          console.error('liff init error', error.message)
+      }
+      if (liff.isLoggedIn()) {
+          const profile = await liff.getProfile()
+          console.log(profile)
+          setUser(profile)
+      } else {
+          liff.login();
+      }
+  }, [])
 
   return (
     <html lang="en">
