@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   function checkUser(profile) {
     fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "usercheck/", {
       method: "POST",
-      body: profile
+      body: JSON.stringify(profile)
     })
       .then((response) => response.json())
       .then((res) => {
