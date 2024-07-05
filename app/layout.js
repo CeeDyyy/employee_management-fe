@@ -29,8 +29,7 @@ export default function RootLayout({ children }) {
     fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "usercheck/", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "token": ""
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(profile)
     })
