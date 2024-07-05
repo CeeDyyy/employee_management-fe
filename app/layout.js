@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
     })
       .then((response) => response.json())
       .then((res) => {
-        setUser(jwtDecode(res.data, "secret"))
+        console.log(res.data)
+        console.log(jwtDecode(res.data, "secret"))
+        setUser(jwtDecode(res.data, "secret"));
       })
       .catch((error) => {
         console.error("checkUser() Error:", error);
