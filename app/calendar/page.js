@@ -93,7 +93,7 @@ export default function Calendar() {
     const [cars, setCars] = useState([])
 
     function getLeaves() {
-        fetch("http://localhost:3001/leaves")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves")
             .then((response) => response.json())
             .then((res) => {
                 setLeaves(res)
@@ -104,7 +104,7 @@ export default function Calendar() {
     }
 
     function getBookings() {
-        fetch("http://localhost:3001/bookings")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "bookings")
             .then((response) => response.json())
             .then((res) => {
                 setBookings(res)
@@ -115,7 +115,7 @@ export default function Calendar() {
     }
 
     function getCars() {
-        fetch("http://localhost:3001/cars")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "cars")
             .then((response) => response.json())
             .then((res) => {
                 setCars(res)
