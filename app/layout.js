@@ -38,7 +38,8 @@ export default function RootLayout({ children }) {
     })
       .then((response) => response.json())
       .then((res) => {
-        setContext(res.data);
+        const user = jwtDecode(res.data, "secret")
+        setContext({ user: user, token: res.data });
       })
       .catch((error) => {
         console.error("checkUser() Error:", error);
