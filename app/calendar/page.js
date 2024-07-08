@@ -154,37 +154,69 @@ export default function Calendar() {
     }
 
     function submitLeave() {
-        console.log("Leave")
-        console.log('from: ' + startDate + ' to: ' + endDate)
-        console.log('detail: ' + detail)
-        setDetailPanel("")
-        setStartDate("")
-        setEndDate("")
-        setDetail("")
-        setSelectedLeave("")
-        setSelectedBooking("")
-        Toast.fire({
-            icon: 'success',
-            title: 'บันทึกการลาเรียบร้อย'
+        const body = {
+            user_id: user.user_id,
+            detail: detail,
+            start_date: startDate,
+            end_date: endDate
+        }
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leave/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
         })
+            .then((response) => response.json())
+            .then((res) => {
+                setDetailPanel("")
+                setStartDate("")
+                setEndDate("")
+                setDetail("")
+                setSelectedLeave("")
+                setSelectedBooking("")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'บันทึกการลาเรียบร้อย'
+                })
+            })
+            .catch((error) => {
+                console.error("submitLeave() Error:", error);
+            });
     }
 
     function submitBooking() {
-        console.log("Booking")
-        console.log('from: ' + startDate + ' to: ' + endDate)
-        console.log('detail: ' + detail)
-        console.log('car: ' + selectedCar)
-        setDetailPanel("")
-        setStartDate("")
-        setEndDate("")
-        setDetail("")
-        setSelectedCar("")
-        setSelectedLeave("")
-        setSelectedBooking("")
-        Toast.fire({
-            icon: 'success',
-            title: 'บันทึกการจองเรียบร้อย'
+        const body = {
+            user_id: user.user_id,
+            detail: detail,
+            start_date: startDate,
+            end_date: endDate,
+            car_id: selectedCar
+        }
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leave/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
         })
+            .then((response) => response.json())
+            .then((res) => {
+                setDetailPanel("")
+                setStartDate("")
+                setEndDate("")
+                setDetail("")
+                setSelectedCar("")
+                setSelectedLeave("")
+                setSelectedBooking("")
+                Toast.fire({
+                    icon: 'success',
+                    title: 'บันทึกการจองเรียบร้อย'
+                })
+            })
+            .catch((error) => {
+                console.error("submitBooking() Error:", error);
+            });
     }
 
     const [selectedLeave, setSelectedLeave] = useState("")
