@@ -160,7 +160,7 @@ export default function Calendar() {
             start_date: startDate,
             end_date: endDate
         }
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leave/", {
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -193,7 +193,7 @@ export default function Calendar() {
             end_date: endDate,
             car_id: selectedCar
         }
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/", {
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "carbookings/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
