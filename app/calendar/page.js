@@ -66,12 +66,14 @@ export default function Calendar() {
     const zeroPad = (num, places) => String(num).padStart(places, '0')
 
     useEffect(() => {
-        getLeaves()
-        getBookings()
-        getCars()
-        setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
-        setLastDate(new Date(selectedYear, selectedMonth + 1, 0).getDate())
-    }, [selectedMonth])
+        if (token) {
+            getLeaves()
+            getBookings()
+            getCars()
+            setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
+            setLastDate(new Date(selectedYear, selectedMonth + 1, 0).getDate())
+        }
+    }, [token, selectedMonth])
 
     function decreaseMonth() {
         if (selectedMonth === 0) {
@@ -105,6 +107,7 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
+                console.log(res)
                 setLeaves(res.data)
             })
             .catch((error) => {
@@ -113,7 +116,7 @@ export default function Calendar() {
     }
 
     function getBookings() {
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "bookings/", {
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "carbookings/", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -122,10 +125,11 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
+                console.log(res)
                 setBookings(res.data)
             })
             .catch((error) => {
-                console.error("getLeaves() Error:", error);
+                console.error("getBookings() Error:", error);
             });
     }
 
@@ -139,10 +143,11 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
+                console.log(res)
                 setCars(res.data)
             })
             .catch((error) => {
-                console.error("getLeaves() Error:", error);
+                console.error("getCars() Error:", error);
             });
     }
 
