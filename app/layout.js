@@ -55,6 +55,7 @@ export default function RootLayout({ children }) {
     }
     if (liff.isLoggedIn()) {
       const profile = await liff.getProfile()
+      console.log(profile)
       // setContext({user: profile})
       checkUser(profile)
     } else {
