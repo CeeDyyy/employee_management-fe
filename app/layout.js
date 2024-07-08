@@ -35,9 +35,7 @@ export default function RootLayout({ children }) {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log(res.data)
-        console.log(jwtDecode(res.data, "secret"))
-        setUser(jwtDecode(res.data, "secret"));
+        setUser(jwtDecode(res.token, "secret").data);
       })
       .catch((error) => {
         console.error("checkUser() Error:", error);
@@ -59,6 +57,7 @@ export default function RootLayout({ children }) {
     } else {
       liff.login();
     }
+    // checkUser(moc)
   }, [])
 
   return (
