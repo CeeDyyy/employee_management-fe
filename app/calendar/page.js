@@ -193,7 +193,7 @@ export default function Calendar() {
             end_date: endDate,
             car_id: selectedCar
         }
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leave/", {
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
