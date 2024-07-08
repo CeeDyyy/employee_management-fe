@@ -107,7 +107,6 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res)
                 setLeaves(res.data)
             })
             .catch((error) => {
@@ -125,7 +124,6 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res)
                 setBookings(res.data)
             })
             .catch((error) => {
@@ -143,7 +141,6 @@ export default function Calendar() {
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res)
                 setCars(res.data)
             })
             .catch((error) => {
