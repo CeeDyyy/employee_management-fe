@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { format, compareAsc } from 'date-fns';
 import Swal from 'sweetalert2';
 
+import { UserContext } from '@/app/layout';
 import { PageLayout } from '@/components/layouts';
 
 const Toast = Swal.mixin({
@@ -19,6 +20,8 @@ const Toast = Swal.mixin({
     }
 })
 export default function Calendar() {
+    const { user, token } = useContext(UserContext);
+
     const searchParams = useSearchParams();
     const date = new Date()
     const month = [
@@ -93,10 +96,16 @@ export default function Calendar() {
     const [cars, setCars] = useState([])
 
     function getLeaves() {
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Token " + token
+            }
+        })
             .then((response) => response.json())
             .then((res) => {
-                setLeaves(res)
+                setLeaves(res.data)
             })
             .catch((error) => {
                 console.error("getLeaves() Error:", error);
@@ -104,10 +113,16 @@ export default function Calendar() {
     }
 
     function getBookings() {
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "bookings/")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "bookings/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Token " + token
+            }
+        })
             .then((response) => response.json())
             .then((res) => {
-                setBookings(res)
+                setBookings(res.data)
             })
             .catch((error) => {
                 console.error("getLeaves() Error:", error);
@@ -115,10 +130,16 @@ export default function Calendar() {
     }
 
     function getCars() {
-        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "cars/")
+        fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "cars/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Token " + token
+            }
+        })
             .then((response) => response.json())
             .then((res) => {
-                setCars(res)
+                setCars(res.data)
             })
             .catch((error) => {
                 console.error("getLeaves() Error:", error);

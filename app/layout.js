@@ -10,12 +10,15 @@ export const UserContext = createContext()
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID
 
 export default function RootLayout({ children }) {
-  const [user, setUser] = useState({
-    "userId": "uuid",
-    "displayName": "name",
-    "statusMessage": "status message",
-    "pictureUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    "role": null
+  const [context, setContext] = useState({
+    user: {
+      "userId": "uuid",
+      "displayName": "name",
+      "statusMessage": "status message",
+      "pictureUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      "role": null
+    },
+    token: null
   })
   const moc = {
     "userId": "Udc30b20e1e87c8bc7d475398bb5607ff",
@@ -35,7 +38,7 @@ export default function RootLayout({ children }) {
     })
       .then((response) => response.json())
       .then((res) => {
-        setUser(jwtDecode(res.token, "secret").data);
+        setContext(res.data);
       })
       .catch((error) => {
         console.error("checkUser() Error:", error);
@@ -51,7 +54,7 @@ export default function RootLayout({ children }) {
     }
     if (liff.isLoggedIn()) {
       const profile = await liff.getProfile()
-      // setUser(profile)
+      // setContext({user: profile})
       checkUser(profile)
     } else {
       liff.login();
@@ -66,7 +69,7 @@ export default function RootLayout({ children }) {
         <meta name='description' content='Description' />
       </head>
       <body>
-        <UserContext.Provider value={user}>
+        <UserContext.Provider value={context}>
           <div className="flex flex-col justify-between bg-neutral-50">
             {children}
             <Footer />
