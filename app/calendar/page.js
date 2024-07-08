@@ -21,8 +21,8 @@ const Toast = Swal.mixin({
 })
 export default function Calendar() {
     const { user, token } = useContext(UserContext);
-
     const searchParams = useSearchParams();
+
     const date = new Date()
     const month = [
         { enLong: 'January', enShort: 'Jan', thLong: 'มกราคม', thShort: 'มกรา', thAbbr: 'ม.ค.' },
@@ -65,11 +65,15 @@ export default function Calendar() {
 
     const zeroPad = (num, places) => String(num).padStart(places, '0')
 
+    function reFetch() {
+        getLeaves()
+        getBookings()
+        getCars()
+    }
+
     useEffect(() => {
         if (token) {
-            getLeaves()
-            getBookings()
-            getCars()
+            reFetch()
             setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
             setLastDate(new Date(selectedYear, selectedMonth + 1, 0).getDate())
         }
@@ -163,22 +167,26 @@ export default function Calendar() {
         fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "leaves/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Token " + token
             },
             body: JSON.stringify(body)
         })
             .then((response) => response.json())
             .then((res) => {
-                setDetailPanel("")
-                setStartDate("")
-                setEndDate("")
-                setDetail("")
-                setSelectedLeave("")
-                setSelectedBooking("")
-                Toast.fire({
-                    icon: 'success',
-                    title: 'บันทึกการลาเรียบร้อย'
-                })
+                if (res.status) {
+                    setDetailPanel("")
+                    setStartDate("")
+                    setEndDate("")
+                    setDetail("")
+                    setSelectedLeave("")
+                    setSelectedBooking("")
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'บันทึกการลาเรียบร้อย'
+                    })
+                    reFetch()
+                } else console.error(res)
             })
             .catch((error) => {
                 console.error("submitLeave() Error:", error);
@@ -196,27 +204,63 @@ export default function Calendar() {
         fetch(process.env.NEXT_PUBLIC_SERVICE_URL + "carbookings/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Token " + token
             },
             body: JSON.stringify(body)
         })
             .then((response) => response.json())
             .then((res) => {
-                setDetailPanel("")
-                setStartDate("")
-                setEndDate("")
-                setDetail("")
-                setSelectedCar("")
-                setSelectedLeave("")
-                setSelectedBooking("")
-                Toast.fire({
-                    icon: 'success',
-                    title: 'บันทึกการจองเรียบร้อย'
-                })
+                if (res.status) {
+                    setDetailPanel("")
+                    setStartDate("")
+                    setEndDate("")
+                    setDetail("")
+                    setSelectedCar("")
+                    setSelectedLeave("")
+                    setSelectedBooking("")
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'บันทึกการจองเรียบร้อย'
+                    })
+                    reFetch()
+                } else console.error(res)
             })
             .catch((error) => {
                 console.error("submitBooking() Error:", error);
             });
+    }
+
+    function deleteRecord(type, id) {
+        Swal.fire({
+            title: `Do you want to delete this ${type}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Confirm!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(process.env.NEXT_PUBLIC_SERVICE_URL + type.toLowerCase() + "/" + id + "/", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Token " + token
+                    }
+                })
+                    .then((response) => response.json())
+                    .then((res) => {
+                        if (res.status) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'ลบสำเร็จ'
+                            })
+                            reFetch()
+                        } else console.error(res)
+                    })
+                    .catch((error) => {
+                        console.error(`deleteRecord(${type}, ${id}) Error:`, error);
+                    });
+            }
+        });
     }
 
     const [selectedLeave, setSelectedLeave] = useState("")
@@ -315,15 +359,15 @@ export default function Calendar() {
 
                                     <div className={`${display === "vertical" && 'h-[60vh] flex flex-col gap-y-2 py-2'} ${display === "horizontal" && 'w-full'}`}>
                                         {leaves.map((leave) =>
-                                            (yyyyMMdd >= leave.startDate.slice(0, 10) && yyyyMMdd <= leave.endDate.slice(0, 10)) &&
+                                            (yyyyMMdd >= leave.start_date.slice(0, 10) && yyyyMMdd <= leave.end_date.slice(0, 10)) &&
                                             <div className={`my-1 rounded ${display === "vertical" && 'py-1'} ${display === "horizontal" && 'mx-2 grow'} ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
-                                                <p className="text-xs truncate">👋 {leave.userId}</p>
+                                                <p className="text-xs truncate">👋 {leave.user_id}</p>
                                             </div>
                                         )}
                                         {bookings.map((booking) =>
-                                            (yyyyMMdd >= booking.startDate.slice(0, 10) && yyyyMMdd <= booking.endDate.slice(0, 10)) &&
+                                            (yyyyMMdd >= booking.start_date.slice(0, 10) && yyyyMMdd <= booking.end_date.slice(0, 10)) &&
                                             <div className={`my-1 rounded ${display === "vertical" && 'py-1'} ${display === "horizontal" && 'mx-2 grow'} ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
-                                                <p className="text-xs truncate">🚗 {booking.userId}</p>
+                                                <p className="text-xs truncate">🚗 {booking.user_id}</p>
                                             </div>
                                         )}
                                     </div>
@@ -358,22 +402,25 @@ export default function Calendar() {
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) &&
                             <div className="mt-2 grid gap-y-2">
                                 {leaves.map((leave) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.startDate.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.endDate.slice(0, 10)) &&
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.end_date.slice(0, 10)) &&
                                     <div key={leave.id}>
                                         <div onClick={() => { selectedLeave.id === leave.id ? setSelectedLeave("") : setSelectedLeave(leave); setSelectedBooking(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
                                             <p className="text-xs md:text-sm">
                                                 <span>👋 ลาโดย: </span>
-                                                <span className="font-bold">{leave.userId}</span>
+                                                <span className="font-bold">{leave.user_id}</span>
                                                 <span className="ml-2"> สถานะ: </span>
-                                                <span className="font-bold">{leave.status}</span>
+                                                <span className="font-bold">{leave.status || "รอ"}</span>
                                             </p>
-                                            <p className="-mt-0.5">👁️‍🗨️</p>
+                                            <div className="flex gap-x-2">
+                                                <p className="-mt-0.5">👁️‍🗨️</p>
+                                                <button onClick={(e) => { e.stopPropagation(); deleteRecord("leave", leave.id); }}>🗑️</button>
+                                            </div>
                                         </div>
                                         {selectedLeave && selectedLeave.id === leave.id &&
                                             <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
                                                 <p>แจ้งโดย: </p><p className={!selectedLeave.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedLeave.userId}</p><p className={!selectedLeave.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedLeave.carId ? 'hidden' : 'font-bold'}>{selectedLeave.carId}</p>
                                                 <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedLeave.detail}</p>
-                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedLeave.startDate}</p><p>ถึง: </p><p className="font-bold">{selectedLeave.endDate}</p>
+                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedLeave.start_date}</p><p>ถึง: </p><p className="font-bold">{selectedLeave.end_date}</p>
                                                 <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedLeave.timeStamp}</p>
                                                 <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedLeave.status}</p>
                                                 <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedLeave.approver}</p><p>เวลา: </p><p className="font-bold">{selectedLeave.changedTimeStamp}</p>
@@ -383,27 +430,30 @@ export default function Calendar() {
                                     </div>
                                 )}
                                 {bookings.map((booking) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.startDate.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.endDate.slice(0, 10)) &&
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.end_date.slice(0, 10)) &&
                                     <div key={booking.id}>
                                         <div onClick={() => { selectedBooking.id === booking.id ? setSelectedBooking("") : setSelectedBooking(booking); setSelectedLeave(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
                                             <p className="text-xs md:text-sm">
                                                 <span>🚗 จองโดย: </span>
-                                                <span className="font-bold">{booking.userId}</span>
+                                                <span className="font-bold">{booking.user_id}</span>
                                                 <span className="ml-2"> รถ: </span>
-                                                <span className="font-bold">{booking.carId}</span>
+                                                <span className="font-bold">{booking.car_id}</span>
                                                 <span className="ml-2"> สถานะ: </span>
                                                 <span className="font-bold">{booking.status}</span>
                                             </p>
-                                            <p className="-mt-0.5">👁️‍🗨️</p>
+                                            <div className="flex gap-x-2">
+                                                <p className="-mt-0.5">👁️‍🗨️</p>
+                                                <button onClick={(e) => { e.stopPropagation(); deleteRecord("carbooking", booking.id); }}>🗑️</button>
+                                            </div>
                                         </div>
                                         {selectedBooking && selectedBooking.id === booking.id &&
                                             <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
-                                                <p>แจ้งโดย: </p><p className={!selectedBooking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedBooking.userId}</p><p className={!selectedBooking.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedBooking.carId ? 'hidden' : 'font-bold'}>{selectedBooking.carId}</p>
+                                                <p>แจ้งโดย: </p><p className={!selectedBooking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedBooking.userId}</p><p className={!selectedBooking.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedBooking.car_id ? 'hidden' : 'font-bold'}>{selectedBooking.car_id}</p>
                                                 <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedBooking.detail}</p>
-                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedBooking.startDate}</p><p>ถึง: </p><p className="font-bold">{selectedBooking.endDate}</p>
-                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedBooking.timeStamp}</p>
+                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedBooking.start_date}</p><p>ถึง: </p><p className="font-bold">{selectedBooking.end_date}</p>
+                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedBooking.record_timestamp}</p>
                                                 <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedBooking.status}</p>
-                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedBooking.approver}</p><p>เวลา: </p><p className="font-bold">{selectedBooking.changedTimeStamp}</p>
+                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedBooking.approver}</p><p>เวลา: </p><p className="font-bold">{selectedBooking.update_timestamp}</p>
                                                 <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedBooking.reason}</p>
                                             </div>
                                         }
