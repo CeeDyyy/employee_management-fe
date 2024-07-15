@@ -393,10 +393,10 @@ export default function Calendar() {
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) &&
                             <div className="mt-2 grid gap-y-2">
                                 {leaves.map((leave) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.end_date.slice(0, 10)) && <BookingDetail booking={leave} key={leave.id} />
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.end_date.slice(0, 10)) && <BookingDetail booking={leave} deleteRecord={deleteRecord} key={leave.id} />
                                 )}
                                 {bookings.map((booking) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.end_date.slice(0, 10)) && <BookingDetail booking={booking} key={booking.id} />
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.end_date.slice(0, 10)) && <BookingDetail booking={booking} deleteRecord={deleteRecord} key={booking.id} />
                                 )}
                             </div>
                         }
@@ -435,7 +435,7 @@ export default function Calendar() {
     )
 }
 
-const BookingDetail = ({ booking }) => {
+const BookingDetail = ({ booking, deleteRecord }) => {
     return (
         <div>
             <summary className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`}>
@@ -451,7 +451,7 @@ const BookingDetail = ({ booking }) => {
             <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
                 <div className="col-span-full flex justify-end gap-x-2">
                     <button className="hover:scale-110 hover:bg-slate-200 active:scale-90 active:bg-slate-300 duration-100 rounded">✏️</button>
-                    <button onClick={() => deleteRecord("carbooking", booking.id)} className="hover:scale-110 hover:bg-red-200 active:scale-90 active:bg-red-300 duration-200 rounded">🗑️</button>
+                    <button onClick={() => deleteRecord(!booking.carId ? 'leave' : 'carbooking', booking.id)} className="hover:scale-110 hover:bg-red-200 active:scale-90 active:bg-red-300 duration-200 rounded">🗑️</button>
                 </div>
                 <p>แจ้งโดย: </p><p className={!booking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{booking.user.fullname}</p><p className={!booking.carId ? 'hidden' : ''}>รถ: </p><p className={!booking.car_id ? 'hidden' : 'font-bold'}>{booking.car_id}</p>
                 <p>รายละเอียด: </p><p className="col-span-3 font-bold">{booking.detail}</p>
