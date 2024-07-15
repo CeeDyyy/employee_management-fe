@@ -179,8 +179,6 @@ export default function Calendar() {
                     setStartDate("")
                     setEndDate("")
                     setDetail("")
-                    setSelectedLeave("")
-                    setSelectedBooking("")
                     Toast.fire({
                         icon: 'success',
                         title: 'บันทึกการลาเรียบร้อย'
@@ -217,8 +215,6 @@ export default function Calendar() {
                     setEndDate("")
                     setDetail("")
                     setSelectedCar("")
-                    setSelectedLeave("")
-                    setSelectedBooking("")
                     Toast.fire({
                         icon: 'success',
                         title: 'บันทึกการจองเรียบร้อย'
@@ -262,9 +258,6 @@ export default function Calendar() {
             }
         });
     }
-
-    const [selectedLeave, setSelectedLeave] = useState("")
-    const [selectedBooking, setSelectedBooking] = useState("")
 
     return (
         <PageLayout title="Calendar">
@@ -336,8 +329,6 @@ export default function Calendar() {
                                 <div
                                     onClick={() => {
                                         (detailPanel !== "leave" && detailPanel !== "booking") && setDetailPanel(`detail${yyyyMMdd}`);
-                                        setSelectedLeave("");
-                                        setSelectedBooking("");
                                         setStartDate(yyyyMMdd + 'T00:00');
                                         setEndDate(yyyyMMdd + 'T00:00')
                                     }}
@@ -361,13 +352,13 @@ export default function Calendar() {
                                         {leaves.map((leave) =>
                                             (yyyyMMdd >= leave.start_date.slice(0, 10) && yyyyMMdd <= leave.end_date.slice(0, 10)) &&
                                             <div className={`my-1 rounded ${display === "vertical" && 'py-1'} ${display === "horizontal" && 'mx-2 grow'} ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
-                                                <p className="text-xs truncate">👋 {leave.user_id}</p>
+                                                <p className="text-xs truncate">👋 {leave.user.fullname}</p>
                                             </div>
                                         )}
                                         {bookings.map((booking) =>
                                             (yyyyMMdd >= booking.start_date.slice(0, 10) && yyyyMMdd <= booking.end_date.slice(0, 10)) &&
                                             <div className={`my-1 rounded ${display === "vertical" && 'py-1'} ${display === "horizontal" && 'mx-2 grow'} ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
-                                                <p className="text-xs truncate">🚗 {booking.user_id}</p>
+                                                <p className="text-xs truncate">🚗 {booking.user.fullname}</p>
                                             </div>
                                         )}
                                     </div>
@@ -382,7 +373,7 @@ export default function Calendar() {
                                  md:relative md:top-auto md:w-full md:h-full
                                  left-0 bg-neutral-50 ${detailPanel ? 'block' : 'hidden'}`}
                 >
-                    <svg onClick={() => { setDetailPanel(""); setSelectedLeave(""); setSelectedBooking(""); }} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
+                    <svg onClick={() => setDetailPanel("")} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
                     <div className="mt-10 p-4">
 
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center font-bold">{format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy')}</p> : ""}
@@ -402,62 +393,10 @@ export default function Calendar() {
                         {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) &&
                             <div className="mt-2 grid gap-y-2">
                                 {leaves.map((leave) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.end_date.slice(0, 10)) &&
-                                    <div key={leave.id}>
-                                        <div onClick={() => { selectedLeave.id === leave.id ? setSelectedLeave("") : setSelectedLeave(leave); setSelectedBooking(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${leave.status === "approved" ? 'bg-emerald-200' : leave.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={leave.id}>
-                                            <p className="text-xs md:text-sm">
-                                                <span>👋 ลาโดย: </span>
-                                                <span className="font-bold">{leave.user_id}</span>
-                                                <span className="ml-2"> สถานะ: </span>
-                                                <span className="font-bold">{leave.status || "รอ"}</span>
-                                            </p>
-                                            <div className="flex gap-x-2">
-                                                <p className="-mt-0.5">👁️‍🗨️</p>
-                                                <button onClick={(e) => { e.stopPropagation(); deleteRecord("leave", leave.id); }}>🗑️</button>
-                                            </div>
-                                        </div>
-                                        {selectedLeave && selectedLeave.id === leave.id &&
-                                            <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
-                                                <p>แจ้งโดย: </p><p className={!selectedLeave.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedLeave.userId}</p><p className={!selectedLeave.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedLeave.carId ? 'hidden' : 'font-bold'}>{selectedLeave.carId}</p>
-                                                <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedLeave.detail}</p>
-                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedLeave.start_date}</p><p>ถึง: </p><p className="font-bold">{selectedLeave.end_date}</p>
-                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedLeave.timeStamp}</p>
-                                                <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedLeave.status}</p>
-                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedLeave.approver}</p><p>เวลา: </p><p className="font-bold">{selectedLeave.changedTimeStamp}</p>
-                                                <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedLeave.reason}</p>
-                                            </div>
-                                        }
-                                    </div>
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= leave.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= leave.end_date.slice(0, 10)) && <BookingDetail booking={leave} key={leave.id} />
                                 )}
                                 {bookings.map((booking) =>
-                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.end_date.slice(0, 10)) &&
-                                    <div key={booking.id}>
-                                        <div onClick={() => { selectedBooking.id === booking.id ? setSelectedBooking("") : setSelectedBooking(booking); setSelectedLeave(""); }} className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`} key={booking.id}>
-                                            <p className="text-xs md:text-sm">
-                                                <span>🚗 จองโดย: </span>
-                                                <span className="font-bold">{booking.user_id}</span>
-                                                <span className="ml-2"> รถ: </span>
-                                                <span className="font-bold">{booking.car_id}</span>
-                                                <span className="ml-2"> สถานะ: </span>
-                                                <span className="font-bold">{booking.status}</span>
-                                            </p>
-                                            <div className="flex gap-x-2">
-                                                <p className="-mt-0.5">👁️‍🗨️</p>
-                                                <button onClick={(e) => { e.stopPropagation(); deleteRecord("carbooking", booking.id); }}>🗑️</button>
-                                            </div>
-                                        </div>
-                                        {selectedBooking && selectedBooking.id === booking.id &&
-                                            <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
-                                                <p>แจ้งโดย: </p><p className={!selectedBooking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{selectedBooking.userId}</p><p className={!selectedBooking.carId ? 'hidden' : ''}>รถ: </p><p className={!selectedBooking.car_id ? 'hidden' : 'font-bold'}>{selectedBooking.car_id}</p>
-                                                <p>รายละเอียด: </p><p className="col-span-3 font-bold">{selectedBooking.detail}</p>
-                                                <p>ตั้งแต่: </p><p className="font-bold">{selectedBooking.start_date}</p><p>ถึง: </p><p className="font-bold">{selectedBooking.end_date}</p>
-                                                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{selectedBooking.record_timestamp}</p>
-                                                <p>สถานะ: </p><p className="col-span-3 font-bold">{selectedBooking.status}</p>
-                                                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{selectedBooking.approver}</p><p>เวลา: </p><p className="font-bold">{selectedBooking.update_timestamp}</p>
-                                                <p>เหตุผล: </p><p className="col-span-3 font-bold">{selectedBooking.reason}</p>
-                                            </div>
-                                        }
-                                    </div>
+                                    (format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') >= booking.start_date.slice(0, 10) && format(new Date(detailPanel.slice(6, 16)), 'yyyy-MM-dd') <= booking.end_date.slice(0, 10)) && <BookingDetail booking={booking} key={booking.id} />
                                 )}
                             </div>
                         }
@@ -493,5 +432,35 @@ export default function Calendar() {
                 </div>
             </div>
         </PageLayout>
+    )
+}
+
+const BookingDetail = ({ booking }) => {
+    return (
+        <div>
+            <summary className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`}>
+                <p className="text-xs md:text-sm">
+                    <span>{!booking.carId ? "👋 ลา" : "🚗 จอง"}โดย: </span>
+                    <span className="font-bold">{booking.user.fullname}</span>
+                    <span className={!booking.carId ? 'hidden' : 'ml-2'}> รถ: </span>
+                    <span className={!booking.carId ? 'hidden' : 'font-bold'}>{booking.car_id}</span>
+                    <span className="ml-2"> สถานะ: </span>
+                    <span className="font-bold">{booking.status || "รอ"}</span>
+                </p>
+            </summary>
+            <div className="p-2 grid grid-cols-4 border rounded-md text-xs md:text-sm">
+                <div className="col-span-full flex justify-end gap-x-2">
+                    <button className="hover:scale-110 hover:bg-slate-200 active:scale-90 active:bg-slate-300 duration-100 rounded">✏️</button>
+                    <button onClick={() => deleteRecord("carbooking", booking.id)} className="hover:scale-110 hover:bg-red-200 active:scale-90 active:bg-red-300 duration-200 rounded">🗑️</button>
+                </div>
+                <p>แจ้งโดย: </p><p className={!booking.carId ? 'col-span-3 font-bold' : 'font-bold'}>{booking.user.fullname}</p><p className={!booking.carId ? 'hidden' : ''}>รถ: </p><p className={!booking.car_id ? 'hidden' : 'font-bold'}>{booking.car_id}</p>
+                <p>รายละเอียด: </p><p className="col-span-3 font-bold">{booking.detail}</p>
+                <p>ตั้งแต่: </p><p className="font-bold">{booking.start_date}</p><p>ถึง: </p><p className="font-bold">{booking.end_date}</p>
+                <p>ลงบันทึกเมื่อ: </p><p className="col-span-3 font-bold">{booking.record_timestamp}</p>
+                <p>สถานะ: </p><p className="col-span-3 font-bold">{booking.status}</p>
+                <p>ผู้ให้อนุญาต: </p><p className="font-bold">{booking.approver}</p><p>เวลา: </p><p className="font-bold">{booking.update_timestamp}</p>
+                <p>เหตุผล: </p><p className="col-span-3 font-bold">{booking.reason}</p>
+            </div>
+        </div>
     )
 }
