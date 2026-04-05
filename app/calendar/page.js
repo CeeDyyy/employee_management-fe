@@ -59,6 +59,8 @@ export default function Calendar() {
     }
 
     useEffect(() => {
+        setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
+        setLastDate(new Date(selectedYear, selectedMonth + 1, 0).getDate())
         if (token) {
             reFetch()
             setFirstDay(new Date(selectedYear, selectedMonth, 1).getDay())
