@@ -53,7 +53,7 @@ const BookingDetail = ({ booking }) => {
     }
 
     return (
-        <div>
+        <details>
             <summary className={`flex justify-between items-center p-2 rounded-md cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200' : booking.status === "rejected" ? 'bg-rose-200' : 'bg-amber-200'}`}>
                 <p className="text-xs md:text-sm">
                     <span>{!booking.carId ? "👋 ลา" : "🚗 จอง"}โดย: </span>
@@ -77,7 +77,7 @@ const BookingDetail = ({ booking }) => {
                 <p>ผู้ให้อนุญาต: </p><p className="font-bold">{booking.approver}</p><p>เวลา: </p><p className="font-bold">{booking.update_timestamp}</p>
                 <p>เหตุผล: </p><p className="col-span-3 font-bold">{booking.reason}</p>
             </div>
-        </div>
+        </details>
     )
 }
 
