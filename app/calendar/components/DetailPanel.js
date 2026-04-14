@@ -127,7 +127,7 @@ const DetailPanel = ({
     }
 
     return (
-        <div className={`absolute    top-0       w-screen  h-screen
+        <div className={`absolute    top-0       w-screen
                                  md:relative md:top-auto md:w-full md:h-full
                                  left-0 bg-blue-50 ${detailPanel ? 'block' : 'hidden'}`}
         >
