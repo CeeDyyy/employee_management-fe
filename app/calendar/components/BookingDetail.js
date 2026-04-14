@@ -62,7 +62,7 @@ const BookingDetail = ({ booking }) => {
 
     return (
         <details className="rounded-md overflow-hidden shadow-lg">
-            <summary className={`p-2 flex justify-between items-center rounded-t-md border cursor-pointer ${booking.status === "approved" ? 'bg-emerald-200 border-emerald-400' : booking.status === "rejected" ? 'bg-rose-200 border-rose-400' : 'bg-amber-200 border-amber-400'}`}>
+            <summary className={`p-2 flex justify-between items-center rounded-t-md border border-white cursor-pointer ${booking.status === "approved" ? 'bg-gradient-to-r from-emerald-100 from-0% via-emerald-200 via-15% to-emerald-50 to-100%' : booking.status === "rejected" ? 'bg-gradient-to-r from-red-100 from-0% via-red-200 via-15% to-red-50 to-100%' : 'bg-gradient-to-r from-amber-100 from-0% via-amber-200 via-15% to-amber-50 to-100%'}`}>
                 {/* <p className="text-xs md:text-sm">
                     <span>{!booking.carId ? "👋 ลา" : "🚗 จอง"}โดย: </span>
                     <span className="font-bold">{booking.user.fullname}</span>
