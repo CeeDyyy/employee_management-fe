@@ -73,7 +73,7 @@ export default function Calendar() {
         <PageLayout title="Calendar">
             <div className="pt-2 grid grid-cols-2 content-center">
                 <details>
-                    <summary className="w-8 h-8 flex justify-center cursor-pointer list-none bg-gray-100 rounded duration-150">
+                    <summary className="w-8 h-8 flex justify-center cursor-pointer list-none bg-blue-50 rounded duration-150">
                         {display === "tiles" &&
                             <div>
                                 <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xmlSpace="preserve" width="32px" height="32px" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth={0} /><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" /><g id="SVGRepo_iconCarrier"> <style type="text/css" dangerouslySetInnerHTML={{ __html: " .st0{fill:none;stroke:#06B6D4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#06B6D4;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} " }} /> <rect x={4} y={4} className="st0" width={10} height={10} /> <rect x={4} y={18} className="st0" width={10} height={10} /> <rect x={18} y={4} className="st0" width={10} height={10} /> <rect x={18} y={18} className="st0" width={10} height={10} /> </g></svg>

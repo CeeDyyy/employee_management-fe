@@ -72,7 +72,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <UserContext.Provider value={context}>
-          <div className="flex flex-col justify-between bg-neutral-50">
+          <div className="flex flex-col justify-between bg-blue-50">
             {children}
             <Footer />
           </div>

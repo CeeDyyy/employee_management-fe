@@ -129,7 +129,7 @@ const DetailPanel = ({
     return (
         <div className={`absolute    top-0       w-screen  h-screen
                                  md:relative md:top-auto md:w-full md:h-full
-                                 left-0 bg-neutral-50 ${detailPanel ? 'block' : 'hidden'}`}
+                                 left-0 bg-blue-50 ${detailPanel ? 'block' : 'hidden'}`}
         >
             <svg onClick={() => setDetailPanel("")} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
             <div className="mt-10 p-4">
