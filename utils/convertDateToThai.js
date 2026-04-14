@@ -41,5 +41,5 @@ export function convertDateToThai(text) {
     return text.replace(
         /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|June|July|August|September|October|November|December)\b/g,
         m => map[m] || m
-    ).replace("May ", "พฤษภาคม ").replace(" May", " พ.ค.");
+    ).replace("May ", "พฤษภาคม ").replace(" May", " พ.ค.").replace(/\b(\d{4})\b/g, y => Number(y) + 543);
 }
