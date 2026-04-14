@@ -3,11 +3,18 @@
 import './globals.css'
 import React, { useState, useEffect, createContext } from 'react';
 import { jwtDecode } from "jwt-decode";
+import { Prompt } from "next/font/google";
 import Footer from '@/components/footer';
 
 export const UserContext = createContext()
 
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID
+
+const prompt = Prompt({
+  variable: "--font-prompt",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"]
+})
 
 export default function RootLayout({ children }) {
   const [context, setContext] = useState({
