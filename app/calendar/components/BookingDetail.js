@@ -61,7 +61,7 @@ const BookingDetail = ({ booking }) => {
     }
 
     return (
-        <details className="rounded-md overflow-hidden shadow-lg">
+        <details className="group rounded-md overflow-hidden shadow-lg">
             <summary className={`p-2 flex justify-between items-center rounded-t-lg border-2 border-white cursor-pointer ${booking.status === "approved" ? 'bg-gradient-to-r from-emerald-100 from-0% via-emerald-200 via-15% to-emerald-50 to-100%' : booking.status === "rejected" ? 'bg-gradient-to-r from-red-100 from-0% via-red-200 via-15% to-red-50 to-100%' : 'bg-gradient-to-r from-amber-100 from-0% via-amber-200 via-15% to-amber-50 to-100%'}`}>
                 {/* <p className="text-xs md:text-sm">
                     <span>{!booking.carId ? "👋 ลา" : "🚗 จอง"}โดย: </span>
@@ -81,6 +81,13 @@ const BookingDetail = ({ booking }) => {
                     </div>
                     <p>{statusTH[booking.status]}</p>
                 </div>
+                <svg
+                    class="w-5 h-5 transition-transform duration-150 group-open:rotate-180"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
             </summary>
             {/* <div className="p-2 grid grid-cols-4 border text-xs md:text-sm">
                 <div className="col-span-full flex justify-end gap-x-2">
