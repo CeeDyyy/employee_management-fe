@@ -77,7 +77,7 @@ export default function RootLayout({ children }) {
         <title>Employee Management</title>
         <meta name='description' content='Description' />
       </head>
-      <body>
+      <body className={prompt.className}>
         <UserContext.Provider value={context}>
           <div className="flex flex-col justify-between bg-blue-50">
             {children}
