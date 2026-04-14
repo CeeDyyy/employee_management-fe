@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import Swal from 'sweetalert2';
 
 import { UserContext } from '@/app/layout';
+import { convertDateToThai } from '@/utils/convertDateToThai';
 
 import { BookingDetail } from './BookingDetail';
 
@@ -133,7 +134,7 @@ const DetailPanel = ({
             <svg onClick={() => setDetailPanel("")} className="fixed right-0 w-10 ml-auto mt-2 mr-2 rounded-full cursor-pointer ease-out hover:scale-110 hover:bg-red-100 duration-100 md:hidden bg-neutral-50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">{" "}<path d="M16 8L8 16M8.00001 8L16 16" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>{" "}</g></svg>
             <div className="mt-10 p-4">
 
-                {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center font-bold">{format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy')}</p> : ""}
+                {(detailPanel.slice(0, 6) === "detail" && detailPanel.length === 16) ? <p className="mb-4 text-center text-3xl font-bold">{convertDateToThai(format(new Date(detailPanel.slice(6, 16)), 'EEEE d MMMM yyyy'))}</p> : ""}
 
                 <div className={detailPanel.slice(0, 6) === "detail" ? 'grid grid-cols-2 gap-4' : 'hidden'}>
                     <button onClick={() => setDetailPanel("leave")} className="group/leave flex justify-center items-center h-20 w-full cursor-pointer bg-cyan-500 hover:saturate-150 active:scale-95 duration-150 border border-cyan-900 rounded-lg shadow-md">

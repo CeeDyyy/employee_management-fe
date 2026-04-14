@@ -32,7 +32,7 @@ export default function Calendar() {
         }
     }, [token])
 
-    const [leaves, setLeaves] = useState([{ id: "xxx", user_id: "noobyz", status: "pending", user: { fullname: "Thanawat Udchachon" }, detail: "ไปต่างจังหวัด", start_date: "2026-04-06T09:00", end_date: "2026-04-06T18:00" }])
+    const [leaves, setLeaves] = useState([{ id: "xxx", user_id: "noobyz", status: "pending", user: { fullname: "ธนวัฒน์ อุดชาชน" }, type: "ลาพักร้อน", detail: "ไปต่างจังหวัด", start_date: "2026-04-06T09:00", end_date: "2026-04-06T18:00", timestamp: "2026-04-04T12:34", approver: "", updated: "2026-04-04T12:34"}])
     const [bookings, setBookings] = useState([])
 
     function getLeaves() {
